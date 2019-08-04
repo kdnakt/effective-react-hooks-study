@@ -21,6 +21,7 @@ class WithoutHooks extends React.Component<{}, {name:string;type:string}> {
       <div>
         <input value={this.state.name} onChange={this.handleChangeName} />
         <input value={this.state.type} onChange={this.handleChangeType} />
+        <h2>{`${this.state.name} is ${this.state.type}`}</h2>
       </div>
     );
   }
