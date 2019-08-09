@@ -12,6 +12,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+export { firebase };
+
 interface FirebaseContext {
   userId: string | null,
   userName: string,
