@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { firebase, FirebaseContext } from './Firebase';
 
 export interface Document {
-  texctId: string;
+  textId: string;
   title: string;
   text: string;
 }
