@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 
 import { firebase, FirebaseContext } from './Firebase';
-import { returnStatement } from '@babel/types';
 
 export interface Document {
   texctId: string;

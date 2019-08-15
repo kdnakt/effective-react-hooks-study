@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { firebase, FirebaseContext } from './Firebase';
-import { async } from 'q';
 
 interface FirebaseAuthProps {
   NotSignedIn: React.FC;

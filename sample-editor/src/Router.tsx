@@ -19,7 +19,7 @@ export const Router: React.FC<RouterProps> = ({ history }) => {
   }, [history]);
 
   const content = React.useMemo(() => {
-    if (pathname == '/') {
+    if (pathname === '/') {
       return <Index />
     } else if (uuidv4.is(pathname.slice(1))) {
       return <Edit textId={pathname.slice(1)} />;
