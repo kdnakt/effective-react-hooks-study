@@ -4,7 +4,6 @@ import { History } from 'history';
 import { FirebaseAuth, signInWithRedirect, signOut } from './FirebaseAuth';
 
 import { Router } from './Router';
-import { sign } from 'crypto';
 
 const Content: React.FC<{ history : History }> = ({ history }) => {
   return <Router history={history} />;
