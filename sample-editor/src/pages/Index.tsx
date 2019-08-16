@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import uuidv4 from 'uuidv4';
 import { History } from 'history';
+import { Link } from '../Router';
 
 import { firebase, FirebaseContext } from '../Firebase';
 
@@ -20,11 +21,15 @@ const IndexPage: React.FC<IndexProps> = ({ history }) => {
   }, [ref]);
 
   const list = Object.keys(documents).map(textId => {
-    const title = documents[textId].split('\n')[0];
-    return <li key={textId}>{title}</li>;
+    return <li key={textId}>{documents[textId].title}</li>;
   });
 
-  return <ul>{list}</ul>;
+  return (
+    <>
+      <Link as="button" href={uuidv4()}>New</Link>
+      <ul>{list}</ul>
+    </>
+  );
 };
 
 export default IndexPage;
