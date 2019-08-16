@@ -20,13 +20,13 @@ export const Router: React.FC<RouterProps> = ({ history }) => {
 
   const content = React.useMemo(() => {
     if (pathname === '/') {
-      return <Index />
+      return <Index history={history} />
     } else if (uuidv4.is(pathname.slice(1))) {
       return <Edit textId={pathname.slice(1)} />;
     } else {
       return <div>404 not found</div>;
     }
-  }, [pathname]);
+  }, [pathname, history]);
 
   return (
     <RouterContext.Provider value={history}>

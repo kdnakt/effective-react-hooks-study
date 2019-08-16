@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
+import uuidv4 from 'uuidv4';
+import { History } from 'history';
 
 import { firebase, FirebaseContext } from '../Firebase';
 
-const IndexPage = () => {
+type IndexProps = { history : History };
+
+const IndexPage: React.FC<IndexProps> = ({ history }) => {
   const [documents, setDocuments] = useState<any>({});
   const { userId } = useContext(FirebaseContext);
   const ref = firebase.database().ref(`users/${userId}/documents`);
