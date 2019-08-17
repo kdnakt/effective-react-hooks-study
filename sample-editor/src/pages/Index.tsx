@@ -21,7 +21,7 @@ const IndexPage: React.FC<IndexProps> = ({ history }) => {
   }, [ref]);
 
   const list = Object.keys(documents).map(textId => {
-    return <li key={textId}>{documents[textId].title}</li>;
+    return <Link as="li" href={textId} key={textId}>{documents[textId].title}</Link>;
   });
 
   return (
