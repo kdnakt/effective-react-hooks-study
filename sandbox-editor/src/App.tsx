@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Sandbox from './components/Sandbox';
+
 const AppDiv = styled.div`
   width: 100vw;
   height: 100vw;
@@ -12,7 +14,7 @@ const AppDiv = styled.div`
 const App: React.FC = () => {
   return (
     <AppDiv>
-      hello
+      <Sandbox />
     </AppDiv>
   );
 }
