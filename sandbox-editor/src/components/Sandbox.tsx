@@ -16,12 +16,33 @@ const EditorDiv = styled.div`
 `;
 
 const Sandbox: React.FC = () => {
-  const { editorDiv } = useSandbox();
+  const { run, stdout, sources, editorDiv } = useSandbox();
+  
+  const sourceList = Object.keys(sources).map(name => ({
+    name,
+    size: sources[name].length
+  }));
+  
   return (
     <SandboxDiv>
       <EditorDiv style={{ gridColumn: '1/2' }} ref={editorDiv}/>
       <div style={{ gridColumn: '2/2' }}>
-        <button>RUN</button>
+        <button onClick={() => run()}>RUN</button>
+        <div>
+          {sourceList.map(({name, size}: any) => {
+
+            return (
+              <div
+                key={name}
+              >
+                {name}: {size} bytes
+              </div>
+            );
+          })}
+        </div>
+        <code>
+          <pre>{stdout}</pre>
+        </code>
       </div>
     </SandboxDiv>
   );
