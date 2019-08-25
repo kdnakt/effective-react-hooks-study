@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { SaferEval } from 'safer-eval';
+const { SaferEval } = require('safer-eval');
 
 const runInJSSandbox = (
   sources: {[name: string]: string},
