@@ -7,6 +7,26 @@ import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution'
 import 'monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution';
 import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution.js';
 
+import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js';
+import 'monaco-editor/esm/vs/editor/browser/widget/codeEditorWidget.js';
+import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching.js';
+import 'monaco-editor/esm/vs/editor/contrib/caretOperations/caretOperations.js';
+import 'monaco-editor/esm/vs/editor/contrib/caretOperations/transpose.js';
+import 'monaco-editor/esm/vs/editor/contrib/clipboard/clipboard.js';
+import 'monaco-editor/esm/vs/editor/contrib/codelens/codelensController.js';
+import 'monaco-editor/esm/vs/editor/contrib/comment/comment.js';
+import 'monaco-editor/esm/vs/editor/contrib/contextmenu/contextmenu.js';
+import 'monaco-editor/esm/vs/editor/contrib/cursorUndo/cursorUndo.js';
+import 'monaco-editor/esm/vs/editor/contrib/find/findController.js';
+import 'monaco-editor/esm/vs/editor/contrib/folding/folding.js';
+import 'monaco-editor/esm/vs/editor/contrib/parameterHints/parameterHints.js';
+import 'monaco-editor/esm/vs/editor/contrib/smartSelect/smartSelect.js';
+import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js';
+import 'monaco-editor/esm/vs/editor/contrib/wordHighlighter/wordHighlighter.js';
+import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js';
+import 'monaco-editor/esm/vs/editor/standalone/browser/inspectTokens/inspectTokens.js'
+import 'monaco-editor/esm/vs/editor/standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js'
+
 import { runJSTest } from '../sandbox/javascript';
 
 monaco.languages.registerDocumentFormattingEditProvider('javascript', {
