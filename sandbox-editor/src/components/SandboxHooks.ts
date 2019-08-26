@@ -47,12 +47,30 @@ monaco.languages.registerDocumentFormattingEditProvider('javascript', {
   }
 });
 
+const byExtension: { [ext: string]: string } = {
+  js: 'javascript',
+  jsx: 'javascript',
+  ts: 'typescript',
+  tsx: 'typescript',
+  md: 'markdown', 
+};
+
+const getLanguage = (filename: string) => {
+  const ext = filename.split('.').pop() || '';
+  return byExtension[ext] || 'text';
+};
+
 export const useSandbox = () => {
+  const [filename, setFilename] = useState('index.test.js');
   const editorDiv = React.useRef<HTMLDivElement>(null);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
   const subscriptionRef = useRef<monaco.IDisposable[]>([]);
   const [stdout, setStdout] = useState('');
   const [sources, setSources] = useState<{ [name: string]: string }>({});
+  const modelsRef = useRef<{ [name: string]: monaco.editor.ITextModel }>({});
+  const editorStatesRef = useRef<{
+    [name: string]: monaco.editor.ICodeEditorViewState
+  }>({});
 
   const run = useCallback(
     (name: string = 'index.test.js') => {
@@ -102,10 +120,33 @@ export const useSandbox = () => {
       monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S,
       () => {
         editorRef.current!.getAction('editor.action.formatDocument').run();
-        // TODO: run('index.test.js');
+        run('index.test.js');
       }
     );
   }, [run]);
 
-  return { run, stdout, sources, editorDiv };
+  useEffect(() => {
+    console.log('setModel', filename);
+    editorRef.current!.setModel(modelsRef.current[filename]);
+    editorRef.current!.restoreViewState(editorStatesRef.current[filename]);
+    editorRef.current!.focus();
+  }, [filename]);
+
+  const selectFilename = useCallback((s: string) => {
+    editorStatesRef.current[filename] = editorRef.current!.saveViewState()!;
+    setFilename(s);
+  }, [filename]);
+
+  const newFile = useCallback((s: string) => {
+    const model = monaco.editor.createModel('', getLanguage(s));
+    model.updateOptions({ tabSize: 2 });
+    modelsRef.current[s] = model;
+    setSources(x => {
+      x[s] = x[s] || '';
+      return x;
+    });
+    selectFilename(s);
+  }, [selectFilename]);
+
+  return { run, stdout, sources, editorDiv, selectFilename, newFile, filename };
 };
