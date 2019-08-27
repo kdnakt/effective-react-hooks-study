@@ -60,7 +60,7 @@ const getLanguage = (filename: string) => {
   return byExtension[ext] || 'text';
 };
 
-export const useSandbox = () => {
+export const useSandbox = (initialSources: { [p: string]: string}) => {
   const [filename, setFilename] = useState('index.test.js');
   const editorDiv = React.useRef<HTMLDivElement>(null);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
@@ -126,10 +126,52 @@ export const useSandbox = () => {
   }, [run]);
 
   useEffect(() => {
+    console.log('create models');
+    const newSources: { [name: string]: string } = {};
+    Object.keys(initialSources).forEach(name => {
+      const text = initialSources[name];
+      if (name in modelsRef.current) {
+        const model = modelsRef.current[name];
+        if (text !== model.getValue()) {
+          model.pushEditOperations(
+            [],
+            [{ range: model.getFullModelRange(), text }],
+            () => null
+          );
+        }
+      } else {
+        const model = monaco.editor.createModel(text, getLanguage(name));
+        model.updateOptions({
+          tabSize: 2,
+        });
+        modelsRef.current[name] = model;
+      }
+      newSources[name] = modelsRef.current[name].getValue();
+    });
+    setSources(newSources);
+  }, [initialSources]);
+
+  useEffect(() => {
     console.log('setModel', filename);
     editorRef.current!.setModel(modelsRef.current[filename]);
     editorRef.current!.restoreViewState(editorStatesRef.current[filename]);
     editorRef.current!.focus();
+  }, [filename]);
+
+  useEffect(() => {
+    console.log('subscription', filename);
+    subscriptionRef.current.push(
+      modelsRef.current[filename].onDidChangeContent(ev => {
+        editorStatesRef.current[filename] = editorRef.current!.saveViewState()!;
+        setSources(x => ({
+          ...x,
+          [filename]: modelsRef.current[filename].getValue()
+        }));
+      })
+    );
+    return () => {
+      unsubscribe();
+    };
   }, [filename]);
 
   const selectFilename = useCallback((s: string) => {

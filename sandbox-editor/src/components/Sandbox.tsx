@@ -15,8 +15,27 @@ const EditorDiv = styled.div`
   height: 100vw;
 `;
 
+const initialSources: { [p: string]: string } = {
+  'index.test.js': `const { truth } = require('index.js')
+ 
+describe('truth', () => {
+  test('All numbner 42', () => {
+    expect(truth()).toBe(42)
+  })
+})
+`,
+  'index.js': `function truth() {
+  return 8 * 6
+}
+  
+modules.exports = {
+  truth
+}
+  `
+};
+
 const Sandbox: React.FC = () => {
-  const { run, stdout, sources, editorDiv, selectFilename, newFile, filename } = useSandbox();
+  const { run, stdout, sources, editorDiv, selectFilename, newFile, filename } = useSandbox(initialSources);
   
   const [newFilename, setNewFilename] = useState('');
   const sourceList = Object.keys(sources).map(name => ({
