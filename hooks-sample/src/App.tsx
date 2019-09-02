@@ -3,8 +3,10 @@ import React, {
 } from 'react';
 
 const App: React.FC = () => {
+  // useState
   const [name, setName] = useState('');
 
+  // useEffect
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     const id = setInterval(() => {
