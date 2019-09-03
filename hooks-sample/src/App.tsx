@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect,
+  useState, useEffect, createContext, useContext,
 } from 'react';
 
 const App: React.FC = () => {
@@ -17,6 +17,13 @@ const App: React.FC = () => {
     }
   }, [counter]);
 
+  // useContext
+  const context = createContext("");
+  const ConsumerSample = () => {
+    const text = useContext(context);
+    return <b>{text}</b>;
+  };
+
   return (
     <div>
       <div>Hello react hooks</div>
@@ -26,6 +33,10 @@ const App: React.FC = () => {
       <h5>Your name is {name}</h5>
       <hr />
       <h5>{counter}</h5>
+      <hr />
+      <context.Provider value={name}>
+        <ConsumerSample />
+      </context.Provider>
     </div>
   );
 }
