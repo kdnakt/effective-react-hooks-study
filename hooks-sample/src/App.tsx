@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, createContext, useContext,
+  useState, useEffect, createContext, useContext, useReducer,
 } from 'react';
 
 const App: React.FC = () => {
@@ -24,6 +24,29 @@ const App: React.FC = () => {
     return <b>{text}</b>;
   };
 
+  // useReducer
+  interface State {
+    count: number;
+  }
+  const initialState: State = { count: 0 };
+  const add = (n: number) => ({ type: "ADD", payload: n } as const);
+  const sub = (n: number) => ({ type: "SUB", payload: n } as const);
+  type ReturnType<T extends (...args: any[]) => any> = T extends (
+    ...args: any[]
+  ) => infer R ? R : never;
+  type Action = ReturnType<typeof add | typeof  sub>;
+  const reducer: React.Reducer<State, Action> = (state, action) => {
+    switch (action.type) {
+      case "ADD":
+        return { count: state.count + action.payload };
+      case "SUB":
+        return { count: state.count - action.payload };
+      default:
+        return state;
+    }
+  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
     <div>
       <div>Hello react hooks</div>
@@ -37,6 +60,13 @@ const App: React.FC = () => {
       <context.Provider value={name}>
         <ConsumerSample />
       </context.Provider>
+      <hr />
+      <div>
+        <h5>useReducer</h5>
+        <span>{state.count}</span>
+        <button onClick={() => dispatch(add(1))}>add</button>
+        <button onClick={() => dispatch(sub(1))}>sub</button>
+      </div>
     </div>
   );
 }
