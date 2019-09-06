@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, createContext, useContext, useReducer,
+  useState, useEffect, createContext, useContext, useReducer, useMemo,
 } from 'react';
 
 const App: React.FC = () => {
@@ -47,6 +47,13 @@ const App: React.FC = () => {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // useMemo
+  const calculate = (count: number) => {
+    console.log('useMemo called', count);
+    return count + 10;
+  };
+  const memo = useMemo(() => calculate(state.count), [state.count < 10]);
+
   return (
     <div>
       <div>Hello react hooks</div>
@@ -66,6 +73,11 @@ const App: React.FC = () => {
         <span>{state.count}</span>
         <button onClick={() => dispatch(add(1))}>add</button>
         <button onClick={() => dispatch(sub(1))}>sub</button>
+      </div>
+      <hr />
+      <div>
+        <h5>useMemo()</h5>
+        <span>{memo}</span>
       </div>
     </div>
   );
