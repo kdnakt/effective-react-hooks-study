@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, createContext, useContext, useReducer, useMemo,
+  useState, useEffect, createContext, useContext, useReducer, useMemo, useRef, useLayoutEffect,
 } from 'react';
 
 const App: React.FC = () => {
@@ -54,6 +54,9 @@ const App: React.FC = () => {
   };
   const memo = useMemo(() => calculate(state.count), [state.count < 10]);
 
+  // useRef
+  const myref = useRef<HTMLInputElement>(null);
+
   return (
     <div>
       <div>Hello react hooks</div>
@@ -78,6 +81,11 @@ const App: React.FC = () => {
       <div>
         <h5>useMemo()</h5>
         <span>{memo}</span>
+      </div>
+      <hr />
+      <div>
+        <input type="text" ref={myref} />
+        <button onClick={() => myref.current!.focus()}>focus</button>
       </div>
     </div>
   );
